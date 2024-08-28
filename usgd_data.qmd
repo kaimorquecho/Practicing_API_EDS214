@@ -1,0 +1,38 @@
+---
+title: "usgs_data"
+format: html
+editor: visual
+---
+
+```{r}
+library(tidyverse)
+library(dataRetrieval)
+
+```
+
+```{r}
+# Set parameters for the query
+
+# Choptank River near Greensboro, MD:
+siteNumber <- "11118500"
+parameterCd <- c("00060", "00010") # Discharge
+statCd <- c("00001", "00003") # mean and max
+startDate <- "2023-08-19"
+endDate <- "2023-08-22"
+
+```
+
+```{r}
+# Query the APIs
+discharge <- readNWISuv(siteNumber, parameterCd, startDate, endDate)
+
+
+```
+
+```{r}
+ggplot(discharge, aes(x = dateTime, y = X_00060_00000)) +
+  geom_line() +
+  xlab("Date")+
+  ylab("Discharge [ft3/s]")+
+  theme_minimal()
+```
